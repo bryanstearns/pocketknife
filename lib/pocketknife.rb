@@ -8,6 +8,7 @@ require "rye"
 
 # Related libraries
 require "pocketknife/errors"
+require "pocketknife/tar_writer"
 require "pocketknife/node"
 require "pocketknife/node_manager"
 require "pocketknife/version"

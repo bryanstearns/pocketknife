@@ -212,7 +212,9 @@ cd /root &&
     def prepare_upload_with_or_without_a_block
       Pocketknife::Node::TMP_SOLO_RB.should_receive(:open)
       Pocketknife::Node::TMP_CHEF_SOLO_APPLY.should_receive(:open)
-      Pocketknife::Node::TMP_TARBALL.should_receive(:open)
+      dummy = mock
+      Pocketknife::Node::TMP_TARBALL.should_receive(:open).and_yield(dummy)
+      TarWriter.should_receive(:create).with(dummy)
     end
 
     describe "without a block" do

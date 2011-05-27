@@ -191,16 +191,17 @@ cd /root &&
         TMP_SOLO_RB.open("w") {|h| h.write(SOLO_RB_CONTENT)}
         TMP_CHEF_SOLO_APPLY.open("w") {|h| h.write(CHEF_SOLO_APPLY_CONTENT)}
         TMP_TARBALL.open("w") do |handle|
-          Archive::Tar::Minitar.pack(
+          TarWriter.create(handle) do |tar|
             [
               VAR_POCKETKNIFE_COOKBOOKS.basename.to_s,
               VAR_POCKETKNIFE_SITE_COOKBOOKS.basename.to_s,
               VAR_POCKETKNIFE_ROLES.basename.to_s,
               TMP_SOLO_RB.to_s,
               TMP_CHEF_SOLO_APPLY.to_s
-            ],
-            handle
-          )
+            ].each do |path|
+              tar.add(path)
+            end
+          end
         end
       rescue Exception => e
         cleanup_upload
